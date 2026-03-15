@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cris Uhal — Diseño & Literatura</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ink: #1a1510;
+    --rust: #b84c2b;
+    --gold: #c9a84c;
+    --teal: #2d6e6e;
+    --dark: #0e0c0a;
+    --mid: #3a3228;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(14,12,10,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 3px; color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--cream); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase;
+    opacity: 0.65; transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+    gap: 3rem;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(184,76,43,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 5% 80%, rgba(45,110,110,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 6px; font-size: 0.85rem;
+    color: var(--gold); opacity: 0.8; margin-bottom: 1rem;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 5.5vw, 5.5rem);
+    font-weight: 900; line-height: 1;
+    color: var(--cream);
+  }
+  .hero-name span { color: var(--rust); font-style: italic; }
+  .hero-tagline {
+    margin-top: 1.5rem; font-size: 1.05rem; font-weight: 300;
+    color: rgba(245,240,232,0.6); max-width: 400px; line-height: 1.8;
+  }
+  .hero-bio {
+    margin-top: 1rem; font-size: 0.92rem;
+    color: rgba(245,240,232,0.45); max-width: 400px; line-height: 1.9;
+  }
+  .hero-ctas { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.8rem; border-radius: 3px;
+    font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; font-weight: 500; transition: all 0.25s;
+    cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--rust); color: white; }
+  .btn-primary:hover { background: #d05533; transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--cream); border: 1px solid rgba(245,240,232,0.25); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-img-wrap {
+    display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 2;
+  }
+  .hero-poster-box {
+    width: 320px; max-width: 90%;
+    border-radius: 4px;
+    background: linear-gradient(145deg, #3a2a1a 0%, #1a0d0d 100%);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,168,76,0.25);
+    padding: 3rem 2rem; text-align: center;
+    transform: rotate(2deg);
+    transition: transform 0.4s;
+  }
+  .hero-poster-box:hover { transform: rotate(0deg) scale(1.02); }
+
+  /* SECTION BASE */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 5px; font-size: 0.82rem;
+    color: var(--gold); opacity: 0.75; margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.15;
+  }
+  .section-title em { color: var(--rust); font-style: italic; }
+  .divider { width: 55px; height: 2px; background: var(--gold); margin: 1.4rem 0; }
+
+  /* DISEÑO */
+  #diseno { background: var(--ink); }
+  .diseno-intro { color: rgba(245,240,232,0.55); max-width: 480px; line-height: 1.8; font-size: 0.95rem; }
+  .diseno-services {
+    display: flex; flex-direction: row;
+    gap: 1rem; margin-top: 2.5rem;
+    overflow-x: auto; padding-bottom: 0.5rem;
+  }
+  .service-card {
+    flex: 0 0 160px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 4px; padding: 1.2rem 1rem;
+    text-align: center; transition: all 0.3s;
+  }
+  .service-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-3px);
+  }
+  .service-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px; font-size: 1rem; color: var(--gold);
+  }
+  .service-desc { font-size: 0.75rem; color: rgba(245,240,232,0.45); margin-top: 0.4rem; line-height: 1.5; }
+
+  .paquetes-box {
+    margin-top: 3rem; padding: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.2); border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    max-width: 680px;
+  }
+  .paquetes-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 1.5rem; }
+  .paquetes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .paquete {
+    padding: 1.5rem; border-radius: 3px;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .paquete.featured { border-color: rgba(184,76,43,0.5); background: rgba(184,76,43,0.06); }
+  .paquete-tag { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .paquete.featured .paquete-tag { color: var(--rust); }
+  .paquete-price { font-size: 2rem; font-weight: 700; margin: 0.4rem 0; }
+  .paquete-desc { font-size: 0.78rem; color: rgba(245,240,232,0.45); line-height: 1.6; }
+
+  /* LIBROS CARRUSEL */
+  #libros { background: #100d0a; }
+  .libros-intro { color: rgba(245,240,232,0.55); max-width: 480px; line-height: 1.8; font-size: 0.95rem; }
+  .libros-precio-badge {
+    display: inline-block; margin-top: 0.8rem;
+    background: rgba(184,76,43,0.15); border: 1px solid rgba(184,76,43,0.4);
+    color: #e88060; padding: 0.4rem 1rem; border-radius: 2px;
+    font-size: 0.88rem; font-weight: 500;
+  }
+  .carrusel-wrap { position: relative; margin-top: 2.5rem; }
+  .carrusel {
+    display: flex; gap: 1.2rem;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 1rem 0.5rem 1.5rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .carrusel::-webkit-scrollbar { display: none; }
+  .libro-card {
+    flex: 0 0 140px;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s; cursor: pointer;
+  }
+  .libro-card:hover { transform: translateY(-5px); }
+  .libro-cover {
+    width: 140px; height: 210px; object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 4px 8px 20px rgba(0,0,0,0.6);
+    display: block;
+  }
+  .libro-cover-fallback {
+    width: 140px; height: 210px; border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0.8rem; text-align: center;
+    box-shadow: 4px 8px 20px rgba(0,0,0,0.6);
+    font-size: 0.7rem;
+  }
+  .libro-info { margin-top: 0.7rem; }
+  .libro-titulo { font-family: 'Playfair Display', serif; font-size: 0.82rem; font-weight: 700; line-height: 1.3; }
+  .libro-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem; }
+  .libro-precio {
+    background: var(--rust); color: white;
+    padding: 0.18rem 0.5rem; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 500;
+  }
+  .libro-wa {
+    color: #25D366; font-size: 0.72rem; text-decoration: none;
+    opacity: 0.8; transition: opacity 0.2s;
+  }
+  .libro-wa:hover { opacity: 1; }
+  .carrusel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); width: 36px; height: 36px; border-radius: 50%;
+    font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; z-index: 5; backdrop-filter: blur(6px);
+  }
+  .carrusel-btn:hover { background: rgba(201,168,76,0.3); }
+  .carrusel-prev { left: -18px; }
+  .carrusel-next { right: -18px; }
+
+  /* PODCAST */
+  #podcast {
+    background: linear-gradient(135deg, #0c0808 0%, #1a0d0d 100%);
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 5rem;
+  }
+  .podcast-visual {
+    position: relative; display: flex; justify-content: center;
+  }
+  .podcast-disc {
+    width: 320px; max-width: 100%; aspect-ratio: 1;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1a0505 0%, #2d1010 100%);
+    box-shadow: 0 20px 60px rgba(184,76,43,0.25);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.8rem; padding: 2.5rem; text-align: center;
+  }
+  .podcast-title-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; letter-spacing: 5px; color: var(--rust); line-height: 1;
+  }
+  .podcast-sub-big {
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 1rem; color: rgba(245,240,232,0.55);
+  }
+  .podcast-play {
+    width: 60px; height: 60px; background: #1DB954;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; box-shadow: 0 4px 20px rgba(29,185,84,0.35);
+    margin: 0.5rem 0;
+  }
+  .podcast-platform { font-size: 0.75rem; color: rgba(245,240,232,0.35); letter-spacing: 2px; }
+  .podcast-badge {
+    position: absolute; top: -10px; right: 10px;
+    background: #1DB954; color: white;
+    border-radius: 50%; width: 52px; height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; box-shadow: 0 4px 20px rgba(29,185,84,0.4);
+  }
+  .podcast-body .podcast-desc {
+    color: rgba(245,240,232,0.6); font-size: 0.95rem;
+    line-height: 1.8; margin-top: 1rem; max-width: 400px;
+  }
+  .spotify-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    margin-top: 2rem; background: #1DB954;
+    color: white; padding: 0.75rem 1.8rem;
+    border-radius: 50px; text-decoration: none;
+    font-weight: 600; font-size: 0.88rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .spotify-btn:hover { transform: scale(1.04); box-shadow: 0 8px 25px rgba(29,185,84,0.35); }
+
+  /* PENSAMIENTOS */
+  #pensamientos { background: var(--ink); }
+  .thoughts-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .thought-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 4px; padding: 1.8rem;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .thought-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(255,255,255,0.045); }
+  .thought-date { font-size: 0.72rem; color: var(--gold); opacity: 0.65; letter-spacing: 1px; text-transform: uppercase; }
+  .thought-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-top: 0.4rem; line-height: 1.4; }
+  .thought-body { font-size: 0.85rem; color: rgba(245,240,232,0.5); margin-top: 0.6rem; line-height: 1.7; }
+  .thought-tag {
+    display: inline-block; margin-top: 1rem;
+    padding: 0.2rem 0.65rem; border: 1px solid rgba(201,168,76,0.28);
+    border-radius: 2px; font-size: 0.72rem; color: var(--gold); letter-spacing: 1px;
+  }
+  .thoughts-note {
+    margin-top: 2.5rem; font-size: 0.82rem;
+    color: rgba(245,240,232,0.3); font-style: italic;
+    border-left: 2px solid rgba(201,168,76,0.4); padding-left: 1rem; max-width: 500px;
+  }
+  .thoughts-note code { font-family: monospace; color: var(--gold); }
+  #gh-loading { color: rgba(245,240,232,0.35); font-style: italic; font-size: 0.88rem; margin-top: 2rem; }
+
+  /* CONTACTO */
+  #contacto { background: var(--dark); text-align: center; }
+  .contact-icons { display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .contact-icon {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    text-decoration: none; color: var(--cream);
+    opacity: 0.55; transition: opacity 0.2s, transform 0.2s;
+  }
+  .contact-icon:hover { opacity: 1; transform: translateY(-4px); }
+  .contact-icon svg { width: 40px; height: 40px; }
+  .contact-icon span { font-size: 0.76rem; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 2rem 3rem; text-align: center;
+    font-size: 0.78rem; color: rgba(245,240,232,0.28);
+  }
+
+  /* FLOATING */
+  .floating-contacts {
+    position: fixed; bottom: 1.8rem; right: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.8rem; z-index: 50;
+  }
+  .float-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+  }
+  .float-btn:hover { transform: scale(1.14); }
+  .float-wa { background: #25D366; }
+  .float-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .float-btn svg { width: 22px; height: 22px; fill: white; }
+
+  /* BARRA LATERAL */
+  .side-nav {
+    position: fixed; right: 1.2rem; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 0.6rem;
+    z-index: 90;
+  }
+  .side-nav a {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 0.5rem; text-decoration: none;
+    cursor: pointer;
+  }
+  .side-nav a span {
+    font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--cream); opacity: 0;
+    transition: opacity 0.2s; white-space: nowrap;
+    background: rgba(14,12,10,0.85); padding: 0.2rem 0.5rem; border-radius: 2px;
+  }
+  .side-nav a:hover span { opacity: 1; }
+  .side-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(201,168,76,0.3);
+    border: 1px solid rgba(201,168,76,0.5);
+    transition: background 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .side-nav a:hover .side-dot,
+  .side-nav a.active .side-dot {
+    background: var(--gold); transform: scale(1.4);
+  }
+
+  @media(max-width:800px) { .side-nav { display: none; } }
+  @media(max-width: 800px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero, #podcast { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 2rem; }
+    .hero-img-wrap { order: -1; }
+    section { padding: 4rem 1.5rem; }
+    .paquetes-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CRIS UHAL</div>
+  <ul class="nav-links">
+    <li><a href="#diseno">Diseño</a></li>
+    <li><a href="#libros">Libros</a></li>
+    <li><a href="#podcast">Podcast</a></li>
+    <li><a href="#pensamientos">Blog</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">✦ Imagen Visual & Narrativa — La Plata, Argentina ✦</p>
+    <h1 class="hero-name">Cris<br><span>Uhal</span></h1>
+    <p class="hero-tagline">Diseño que habla.<br>Historias que quedan.</p>
+    <p class="hero-bio">
+      Especializado en identidades visuales, portadas y publicidad. También escritor con varios títulos publicados — terror, romance y narrativa contemporánea, todo con acento argentino.
+    </p>
+    <div class="hero-ctas">
+      <a href="#libros" class="btn btn-primary">Ver libros</a>
+      <a href="#diseno" class="btn btn-outline">Servicios de diseño</a>
+    </div>
+  </div>
+  <div class="hero-img-wrap">
+    <div class="hero-poster-box">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:3.2rem;letter-spacing:4px;color:var(--gold);line-height:1;">CRIS S</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:3px;color:var(--cream);margin-top:0.3rem;">DISEÑO</div>
+      <div style="width:70px;height:2px;background:var(--rust);margin:1rem auto;"></div>
+      <div style="font-size:0.8rem;color:rgba(245,240,232,0.5);letter-spacing:2px;text-transform:uppercase;">Publicidad & Libros</div>
+      <div style="font-size:3.5rem;margin-top:1.5rem;filter:grayscale(0.3);">✒️📚</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:0.72rem;color:rgba(245,240,232,0.3);margin-top:1.2rem;letter-spacing:1.5px;text-transform:uppercase;">La Plata · Argentina</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISEÑO -->
+<section id="diseno">
+  <p class="section-label">// servicios</p>
+  <h2 class="section-title">Identidad <em>Visual</em></h2>
+  <div class="divider"></div>
+  <p class="diseno-intro">
+    Logos, marcas, portadas de libros, piezas publicitarias. Para emprendedores y escritores que quieren que su imagen hable sola.
+  </p>
+
+  <div class="diseno-services">
+    <div class="service-card">
+      <div class="service-icon">🎨</div>
+      <div class="service-name">Logos</div>
+      <div class="service-desc">Identidad profesional para tu marca. Archivos PNG, PDF y JPG.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📖</div>
+      <div class="service-name">Portadas</div>
+      <div class="service-desc">Para libros y ebooks. Imagen editorial que engancha desde la primera mirada.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <div class="service-name">Redes</div>
+      <div class="service-desc">Posts, banners e historias con una estética cohesiva y propia.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📢</div>
+      <div class="service-name">Publicidad</div>
+      <div class="service-desc">Flyers, catálogos y material impreso o digital que vende.</div>
+    </div>
+  </div>
+
+  <div class="paquetes-box">
+    <p class="paquetes-title">💼 Paquetes de Logos — @Cristian designs</p>
+    <div class="paquetes-grid">
+      <div class="paquete">
+        <div class="paquete-tag">Emprendedores</div>
+        <div class="paquete-price">$10.000</div>
+        <div class="paquete-desc">1 propuesta de diseño · 5 correcciones · archivos PNG / PDF / JPG</div>
+      </div>
+      <div class="paquete featured">
+        <div class="paquete-tag">En Crecimiento</div>
+        <div class="paquete-price">$20.000</div>
+        <div class="paquete-desc">2 propuestas avanzadas · 10 correcciones · archivos PNG / PDF / JPG</div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;">
+      <a href="https://wa.me/542215856713?text=Hola%20Cris!%20Me%20interesa%20un%20servicio%20de%20diseño" target="_blank" class="btn btn-primary" style="display:inline-flex;">Consultar por diseño →</a>
+    </div>
+  </div>
+</section>
+
+<!-- LIBROS -->
+<section id="libros">
+  <p class="section-label">// literatura</p>
+  <h2 class="section-title">Mis <em>Libros</em></h2>
+  <div class="divider"></div>
+  <p class="libros-intro">
+    Ficción argentina en múltiples géneros — terror, romance, suspenso. Ebooks en PDF listos para leer en tu celu.
+  </p>
+  <div class="libros-precio-badge">📩 Todos los títulos: USD 2 — Pagá por WhatsApp</div>
+
+  <div class="carrusel-wrap">
+    <button class="carrusel-btn carrusel-prev" onclick="moverCarrusel(-1)">‹</button>
+    <button class="carrusel-btn carrusel-next" onclick="moverCarrusel(1)">›</button>
+
+    <div class="carrusel" id="carrusel-libros">
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="GGKEY_B7DFS0Q99BX_frontcover.jpg"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="Manos de Mujer">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#1a0505,#0e0c0a);color:#c06040;">
+          ✂️<br><small>Manos de Mujer</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">Manos de Mujer</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20Manos%20de%20Mujer" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="image-100.jpg"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="Las Sombras del Espejo">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#0a0e0a,#101a10);color:#7aaa8a;">
+          🪞<br><small>Las Sombras del Espejo</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">Las Sombras del Espejo</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20Las%20Sombras%20del%20Espejo" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="grok_image_1773561949648.jpg"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="El Alquiler de la Calle Alvear">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#1a0e0a,#2a1508);color:#c97a4c;">
+          🏠<br><small>El Alquiler</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">El Alquiler de la Calle Alvear</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20El%20Alquiler%20de%20la%20Calle%20Alvear" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="20260312_211657.png"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="Luna de Ceniza">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#0f0a14,#1e1230);color:#9a7aaa;">
+          🌙<br><small>Luna de Ceniza</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">Luna de Ceniza</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20Luna%20de%20Ceniza" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="1773216886262.png"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="La Dueña de los Techos Altos">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#1a1205,#2d2008);color:#c9a84c;">
+          🐯<br><small>La Dueña</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">La Dueña de los Techos Altos</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20La%20Due%C3%B1a%20de%20los%20Techos%20Altos" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="1773194543078.png"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="La Sombra del Lobo">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#0f0a14,#1e1230);color:#8a6aaa;">
+          🐺<br><small>La Sombra del Lobo</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">La Sombra del Lobo</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20La%20Sombra%20del%20Lobo" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="libro-card">
+        <img class="libro-cover"
+          src="grok_image_1771917225013.jpg"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          alt="Cris, ternura y fuego">
+        <div class="libro-cover-fallback" style="display:none;background:linear-gradient(145deg,#1a1010,#2d1a1a);color:#e88060;">
+          🔥<br><small>Cris, ternura y fuego</small>
+        </div>
+        <div class="libro-info">
+          <div class="libro-titulo">Cris, ternura y fuego</div>
+          <div class="libro-footer">
+            <span class="libro-precio">USD 2</span>
+            <a href="https://wa.me/542215856713?text=Quiero%20comprar%20Cris%20ternura%20y%20fuego" class="libro-wa" target="_blank">Comprar ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<section id="podcast">
+  <div class="podcast-visual">
+    <div class="podcast-disc">
+      <div class="podcast-title-big">PULSIONES</div>
+      <div class="podcast-sub-big">Relatos de Cris</div>
+      <div class="podcast-play">▶</div>
+      <div class="podcast-platform">SPOTIFY PODCAST</div>
+    </div>
+    <div class="podcast-badge">🎙</div>
+  </div>
+  <div class="podcast-body">
+    <p class="section-label">// podcast</p>
+    <h2 class="section-title"><em>Pulsiones</em></h2>
+    <div class="divider"></div>
+    <p class="podcast-desc">
+      El canal donde la voz toma el lugar de la página. Relatos narrados, reflexiones y ficción en audio. Disponible en Spotify bajo el nombre <strong>Pulsiones — Relatos de Cris</strong>.
+    </p>
+    <a href="https://open.spotify.com/search/Pulsiones%20Relatos%20de%20Cris" target="_blank" class="spotify-btn">
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:white;"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      Escuchar en Spotify
+    </a>
+  </div>
+</section>
+
+<!-- PENSAMIENTOS -->
+<section id="pensamientos">
+  <p class="section-label">// reflexiones</p>
+  <h2 class="section-title">Pensamientos & <em>Trabajos</em></h2>
+  <div class="divider"></div>
+  <p style="color:rgba(245,240,232,0.55); max-width:460px; line-height:1.8; font-size:0.93rem;">
+    Notas sobre escritura, imagen y la vida. Se actualiza automáticamente desde GitHub.
+  </p>
+  <div id="gh-loading">Cargando entradas...</div>
+  <div class="thoughts-grid" id="thoughts-grid" style="display:none;"></div>
+  <p class="thoughts-note">
+    Para actualizar este blog, editá <code>pensamientos.json</code> en tu repositorio de GitHub y los cambios aparecen acá solos.
+  </p>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <p class="section-label">// hablemos</p>
+  <h2 class="section-title">Contacto</h2>
+  <div class="divider" style="margin:1.4rem auto;"></div>
+  <p style="color:rgba(245,240,232,0.55); max-width:380px; margin:0 auto; line-height:1.8; font-size:0.93rem;">
+    ¿Necesitás una identidad visual, querés comprar un libro o simplemente charlar? Escribime por cualquiera de estos canales.
+  </p>
+  <div class="contact-icons">
+    <a href="https://wa.me/542215856713" target="_blank" class="contact-icon">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.995 0C5.371 0 .009 5.363.009 11.988c0 2.104.549 4.14 1.595 5.945L.057 24l6.254-1.641a11.97 11.97 0 005.684 1.446h.005c6.623 0 11.985-5.363 11.985-11.988 0-3.204-1.247-6.215-3.512-8.479A11.926 11.926 0 0011.995 0zm0 21.905a9.927 9.927 0 01-5.062-1.386l-.362-.215-3.757.985 1.004-3.656-.236-.376a9.912 9.912 0 01-1.52-5.269c0-5.481 4.461-9.941 9.938-9.941 2.655 0 5.147 1.033 7.021 2.909a9.878 9.878 0 012.909 7.032c-.005 5.48-4.464 9.917-9.935 9.917z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+    <a href="https://instagram.com/cristian.libros" target="_blank" class="contact-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      <span>@cristian.libros</span>
+    </a>
+  </div>
+</section>
+
+<!-- BARRA LATERAL DE NAVEGACIÓN -->
+<nav class="side-nav" id="side-nav">
+  <a href="#hero"><span>Inicio</span><div class="side-dot"></div></a>
+  <a href="#diseno"><span>Servicios</span><div class="side-dot"></div></a>
+  <a href="#libros"><span>Libros</span><div class="side-dot"></div></a>
+  <a href="#podcast"><span>Podcast</span><div class="side-dot"></div></a>
+  <a href="#pensamientos"><span>Blog</span><div class="side-dot"></div></a>
+  <a href="#contacto"><span>Contacto</span><div class="side-dot"></div></a>
+</nav>
+
+<footer>
+  <p style="font-family:'Bebas Neue',sans-serif;letter-spacing:4px;color:var(--gold);font-size:1rem;margin-bottom:0.4rem;">CRIS UHAL</p>
+  <p>2026</p>
+</footer>
+
+<!-- FLOATING CONTACT BUTTONS -->
+<div class="floating-contacts">
+  <a href="https://wa.me/542215856713" target="_blank" class="float-btn float-wa" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.995 0C5.371 0 .009 5.363.009 11.988c0 2.104.549 4.14 1.595 5.945L.057 24l6.254-1.641a11.97 11.97 0 005.684 1.446h.005c6.623 0 11.985-5.363 11.985-11.988 0-3.204-1.247-6.215-3.512-8.479A11.926 11.926 0 0011.995 0zm0 21.905a9.927 9.927 0 01-5.062-1.386l-.362-.215-3.757.985 1.004-3.656-.236-.376a9.912 9.912 0 01-1.52-5.269c0-5.481 4.461-9.941 9.938-9.941 2.655 0 5.147 1.033 7.021 2.909a9.878 9.878 0 012.909 7.032c-.005 5.48-4.464 9.917-9.935 9.917z"/></svg>
+  </a>
+  <a href="https://instagram.com/cristian.libros" target="_blank" class="float-btn float-ig" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+  </a>
+</div>
+
+<script>
+// Barra lateral - sección activa
+const secciones = document.querySelectorAll('section[id]');
+const sideLinks = document.querySelectorAll('.side-nav a');
+const sideObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      sideLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.side-nav a[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+secciones.forEach(s => sideObs.observe(s));
+
+// Carrusel de libros
+function moverCarrusel(dir) {
+  const c = document.getElementById('carrusel-libros');
+  c.scrollBy({ left: dir * 320, behavior: 'smooth' });
+}
+
+// Carga el blog desde GitHub
+async function loadThoughts() {
+  const grid = document.getElementById('thoughts-grid');
+  const loading = document.getElementById('gh-loading');
+
+  const fallback = [
+    { fecha: "Marzo 2026", titulo: "Por qué diseño la portada antes de escribir", cuerpo: "La imagen del libro viene antes que las palabras. La portada es una promesa que el texto tiene que cumplir.", tag: "Escritura" },
+    { fecha: "Febrero 2026", titulo: "El terror como forma de decir verdades", cuerpo: "Los monstruos no asustan — lo que asustan son las situaciones humanas que los generan. Eso es lo que intento escribir.", tag: "Literatura" },
+    { fecha: "Enero 2026", titulo: "El error más común en logos de emprendedores", cuerpo: "Usar demasiadas fuentes. Un logo tiene que funcionar en blanco y negro, en chico y en grande. La simplicidad no es falta de creatividad.", tag: "Diseño" }
+  ];
+
+  let data = null;
+  const urls = [
+    'https://cristianuhal-hue.github.io/Gayo/pensamientos.json',
+    'https://raw.githubusercontent.com/cristianuhal-hue/Gayo/main/pensamientos.json'
+  ];
+
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) { data = await res.json(); break; }
+    } catch(e) {}
+  }
+
+  if (!data) data = fallback;
+
+  loading.style.display = 'none';
+  grid.style.display = 'grid';
+
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'thought-card';
+    card.innerHTML = `
+      <div class="thought-date">${item.fecha || ''}</div>
+      <div class="thought-title">${item.titulo}</div>
+      <div class="thought-body">${item.cuerpo}</div>
+      ${item.tag ? `<span class="thought-tag">${item.tag}</span>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+loadThoughts();
+
+// Animación de entrada
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.libro-card, .service-card, .thought-card, .paquete').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(28px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
